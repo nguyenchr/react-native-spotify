@@ -1,9 +1,18 @@
 
-#if __has_include("RCTBridgeModule.h")
-#import "RCTBridgeModule.h"
-#else
+#if __has_include(<React/RCTBridgeModule.h>)
 #import <React/RCTBridgeModule.h>
+#else
+#import "RCTBridgeModule.h"
 #endif
+
+#if __has_include(<React/RCTEventEmitter>)
+#import <React/RCTEventEmitter>
+#else
+#import "RCTEventEmitter.h"
+#endif
+
+
+
 
 extern NSString* const RCTSpotifyErrorDomain;
 extern NSString* const RCTSpotifyWebAPIDomain;
@@ -28,7 +37,7 @@ typedef enum
 
 
 
-@interface RCTSpotify : NSObject <RCTBridgeModule>
+@interface RCTSpotify : RCTEventEmitter <RCTBridgeModule>
 
 +(NSError*)errorWithCode:(RCTSpotifyErrorCode)code description:(NSString*)description;
 
@@ -49,6 +58,8 @@ typedef enum
 //handleAuthURL(url)
 -(id)handleAuthURL:(NSString*)url;
 
+//getURI
+-(void)getURI:(RCTResponseSenderBlock)callback;
 //playURI(spotifyURI, startIndex, startPosition, (error?))
 -(void)playURI:(NSString*)uri startIndex:(NSUInteger)startIndex startPosition:(NSTimeInterval)startPosition completion:(RCTResponseSenderBlock)completion;
 //queueURI(spotifyURI, (error?))
